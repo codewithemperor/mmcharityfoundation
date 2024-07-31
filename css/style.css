@@ -131,7 +131,7 @@ input:focus, textarea:focus, .form-control:focus {
     background-position: center center;
     background-repeat: no-repeat;
 }
-.gray-bg, .misson-area, .causes-area .single-cause .cause-detials, .upcoming-events, .event-page, .inspiration-area, .project-area, .single-article {
+.gray-bg, .misson-area, .causes-area .single-cause .cause-detials, .upcoming-events, .event-page, .inspiration-area, , .single-article {
     background: #fffcf4;
 }
 .bg-info {
@@ -2162,35 +2162,35 @@ to {
     background: #ffb200;
     width: 30px;
 }
-.project-area .single-project {
+ .single-project {
     background: #fff;
 }
 @media only screen and (max-width:767px) {
-    .project-area .single-project {
+     .single-project {
     margin-bottom: 30px;
 }
-}.project-area .single-project .project-thumb {
+} .single-project .project-thumb {
     margin: 0;
 }
-.project-area .single-project .project-info {
+ .single-project .project-info {
     padding: 10px 20px 20px;
     border: 1px solid #ebebeb;
     border-radius: 0 0 5px 5px;
 }
-.project-area .single-project .project-info h3 {
+ .single-project .project-info h3 {
     margin-top: 5px;
 }
 @media only screen and (min-width:768px) and (max-width:991.9px) {
-    .project-area .single-project .project-info h3 {
+     .single-project .project-info h3 {
     font-size: 18px;
 }
-}.project-area .single-project .project-info h3 a {
+} .single-project .project-info h3 a {
     color: #4f2730;
 }
-.project-area .single-project .project-info h3 a:hover {
+ .single-project .project-info h3 a:hover {
     color: #ffb200;
 }
-.project-area .single-project .project-info .btn-unfill {
+ .single-project .project-info .btn-unfill {
     font-weight: 500;
     font-size: 16px;
 }
