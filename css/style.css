@@ -1,4 +1,4 @@
-@import "https://fonts.googleapis.com/css2?family=Heebo&amp;family=Poppins: wght@500;600;700&amp;display=swap";
+@import "https://fonts.googleapis.com/css2?family=Heebo&amp;family=Poppins:wght@500;600;700&amp;display=swap";
     .bg-light {
     background-color: #fffcf4!important;
 }
@@ -131,7 +131,7 @@ input:focus, textarea:focus, .form-control:focus {
     background-position: center center;
     background-repeat: no-repeat;
 }
-.gray-bg, .misson-area, .causes-area .single-cause .cause-detials, .upcoming-events, .event-page, .inspiration-area, , .single-article {
+.gray-bg, .misson-area, .causes-area .single-cause .cause-detials, .upcoming-events, .event-page, .inspiration-area, .single-article {
     background: #fffcf4;
 }
 .bg-info {
