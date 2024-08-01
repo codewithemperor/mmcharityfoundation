@@ -1,0 +1,222 @@
+/* Base styles */
+body {
+    font-size: 16px; /* Default font size */
+}
+
+/* Mobile (up to 480px) */
+h1 {
+    font-size: 24px;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+p, button {
+    font-size: 16px;
+}
+
+.small-text {
+    font-size: 14px;
+}
+
+h1, h2, h3, p, .small-text {
+    text-align: justify;
+}
+
+.section-title {
+    font-size: 28px;
+    margin: 25px 0 5px 0;
+}
+
+.section-padding {
+    padding: 60px 0;
+}
+
+/* Small Tablets (481px to 768px) */
+@media (min-width: 200px) and (max-width: 768px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+
+    p, button {
+        font-size: 16px;
+    }
+
+    .small-text {
+        font-size: 14px;
+    }
+
+    
+    .section-title {
+        font-size: 28px;
+    }
+
+    .feature-area2 .feature-item span.icon.shadow {
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        flex: 0 0 60px;
+    }
+    
+    .feature-area2 .feature-item span.icon.shadow img {
+        width: 25px;
+    }
+
+    .counter-area .single-counter {
+        text-align: center;
+        padding: 30px 0;
+    }
+    
+
+    .single-counter .counter {
+        font-size: 40px;
+    }
+}
+
+/* Large Tablets (769px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    h1 {
+        font-size: 32px;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    h3 {
+        font-size: 24px;
+    }
+
+    p, button {
+        font-size: 18px;
+    }
+
+    .small-text {
+        font-size: 16px;
+    }
+
+    .section-title {
+        font-size: 50px;
+    }
+
+    .section-padding {
+        padding: 80px 0;
+    }
+
+    .feature-area2 .feature-item h3 {
+        font-size: 22px;
+    }
+
+    .single-counter .counter {
+        font-size: 45px;
+    }
+
+    .single-project .project-info h3 {
+        font-size: 18px;    
+    }
+   
+}
+
+/* Small Desktops (1025px to 1200px) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+    h1 {
+        font-size: 36px;
+    }
+
+    h2 {
+        font-size: 32px;
+    }
+
+    h3 {
+        font-size: 28px;
+    }
+
+    p, button {
+        font-size: 18px;
+    }
+
+    .small-text {
+        font-size: 16px;
+    }
+
+    .section-title {
+        font-size: 50px;
+    }
+
+    .section-padding {
+        padding: 100px 0;
+    }
+
+    .feature-area2 .feature-item h3 {
+        font-size: 22px;
+    }
+
+    .single-counter .counter {
+        font-size: 50px;
+    }
+
+    .single-project .project-info h3 {
+        font-size: 18px;    
+    }
+}
+
+/* Large Desktops (1201px and above) */
+@media (min-width: 1201px) {
+    h1 {
+        font-size: 42px;
+    }
+
+    h2 {
+        font-size: 36px;
+    }
+
+    h3 {
+        font-size: 32px;
+    }
+
+    p, button {
+        font-size: 20px;
+    }
+
+    .small-text {
+        font-size: 18px;
+    }
+
+    .section-title {
+        font-size: 50px;
+    }
+
+    .section-padding {
+        padding: 100px 0;
+    }
+
+    .feature-area2 .feature-item h3 {
+        font-size: 22px;
+    }
+
+    .single-counter .counter {
+        font-size: 50px;
+    }
+
+    .single-project .project-info h3 {
+        font-size: 18px;    
+    }
+
+    .single-project .project-info p {
+        font-size: 15px;
+        margin-top: 5px;    
+    }
+}
