@@ -161,6 +161,7 @@ input:focus, textarea:focus, .form-control:focus {
 .shadow, .banner-area .banner-2 .banner-btn a, .cause-details .footer-social a {
     box-shadow: 0 10px 45px 0 rgba(0, 0, 0, .05)!important;
 }
+
 .icon {
     width: 45px;
     height: 45px;
@@ -398,7 +399,7 @@ input:focus, textarea:focus, .form-control:focus {
     left: -25px;
 }
 .owl-nav>div.owl-next {
-    right: -25px;
+    right: -26px;
 }
 }.owl-nav>div i {
     vertical-align: middle;
