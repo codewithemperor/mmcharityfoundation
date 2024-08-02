@@ -854,7 +854,7 @@ to {
     -ms-filter: "alpha(opacity=55)";
     filter: alpha(opacity=55);
 }
-.banner-area .single-banner .banner-info {
+.banner-area .banner-info {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -1083,9 +1083,12 @@ to {
 @media only screen and (max-width:767px) {
     .banner-1 {
     padding: 40px 0;
+    }
 }
-}.banner-1 .banner-info .banner-title {
+
+.banner-1 .banner-info .banner-title {
     font-size: 55px;
+ 
 }
 @media only screen and (min-width:1201px) and (max-width:1400px) {
     .banner-1 .banner-info .banner-title {
