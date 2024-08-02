@@ -201,8 +201,15 @@ input:focus, textarea:focus, .form-control:focus {
     line-height: 1.2;
 }
 
+.naira {
+    text-decoration-line: line-through;
+    -moz-text-decoration-line: line-through;
+    text-decoration-style: double;
+    -moz-text-decoration-style: double;
+}
 .section-title .color {
     display: inline-block;
+    color: #fac200;
 }
 
 .article-title {
