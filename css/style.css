@@ -160,8 +160,7 @@ input:focus, textarea:focus, .form-control:focus {
 }
 .shadow, .banner-area .banner-2 .banner-btn a, .cause-details .footer-social a {
     box-shadow: 0 10px 45px 0 rgba(0, 0, 0, .05)!important;
-}
-
+}   
 .icon {
     width: 45px;
     height: 45px;
@@ -399,7 +398,7 @@ input:focus, textarea:focus, .form-control:focus {
     left: -25px;
 }
 .owl-nav>div.owl-next {
-    right: -26px;
+    right: -25px;
 }
 }.owl-nav>div i {
     vertical-align: middle;
@@ -860,7 +859,6 @@ to {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    min-width: 800px;
 }
 .banner-area .single-banner .banner-info p {
     color: #fff;
