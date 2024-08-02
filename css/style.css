@@ -865,6 +865,7 @@ to {
     text-transform: uppercase;
     letter-spacing: 3px;
     font-size: 20px;
+    /* text-align: left; */
 }
 .banner-area .single-banner .banner-info .banner-btn {
     margin-top: 60px;
