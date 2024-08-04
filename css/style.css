@@ -4531,3 +4531,7 @@ blockquote::before, .blockquote::before {
 .my-account .section-title {
     font-size: 35px;
 }
+
+.button-amount {
+    font-size: 90%;
+}
