@@ -3812,7 +3812,7 @@ blockquote::before, .blockquote::before {
     font-size: 14px;
 }
 .donation-form {
-    padding: 90px 120px;
+    /* padding: 90px 120px; */
 }
 .donation-form .blockquote::before {
     content: " "}
