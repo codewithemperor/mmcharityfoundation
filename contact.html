@@ -145,8 +145,8 @@
                             <h1 class="promo-title"><span>Contact</span> Us</h1>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index-2.html">Home</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Gallery</li>
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Contact</li>
                                 </ol>
                             </nav>
                         </div>
@@ -158,46 +158,97 @@
 
         <main class="main-content contact-page">
             <div class="container">
-                <div class="contact-us text-center">
+                <div class="contact-us text-center mb-3 mb-lg-5">
                     <h2 class="section-title mb-2">Contact us</h2>
                     <p class="text-center">Any questions? Feel free to drop us a message.</p>
                 </div>
-                <div class="row mt-4">
-                    <div class="col-lg-4 col-sm-5">
-                        <div class="c-info-wrap bg-light shadow-sm rounded-2">
-                            <h3 class="contact-title">Get in Touch</h3>
-                            <p class="text-start">Plot 21 Mato Estate Iwajowa, Off Ifedapo Street Akingbade, Ibadan, Oyo State.</p>
-                            <ul class="contact-info">
-                                <li><span class="icon"><i class="fa-regular fa-envelope-open"></i></span> Email: <a href="mailto:info@mmcharityfoundation.com"> info@mmcharityfoundation.com</a></li>
-                                <li><span class="icon"><i class="fa-solid fa-headphones"></i></span> Phone: <a href="tel:+2347051196113">+234 705 119 6113</a></li>
-                                <li><span class="icon"><i class="fa-solid fa-headphones"></i></span> Phone: <a href="tel:+2347051196129">+234 705 119 6129</a></li>
-                            </ul>
+
+                <div class="row">
+
+                    <div class="col-lg-7 bg-light">
+                        <form>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="name" placeholder="Your Name">
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" name="email" placeholder="Email Address">
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="name" placeholder="Your Subject">
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" name="email" placeholder="Phone Number">
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <textarea name="reply" rows="6" class="form-control" placeholder="Your Reply"></textarea>
+                            </div>
+                            <div>
+                                <button class="btn btn-warning p-2 px-3 " type="submit">Leave Reply</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-lg-5 mt-5 mt-lg-0">
+                        <div class="row row-cols-1 gap-3">
+                            <div class="col">
+                                <div class="card border-2 border-warning">
+                                    <div class="card-body text-center py-3">
+                                        <h3 class="h5 mb-3"><i class="fa-solid fa-phone pe-2"></i>Contact</h3>
+                                        <a class="text-dark d-block" href="tel:+2347051196129">+234 705 119 6129</a>
+                                        <a class="text-dark d-block" href="tel:+2347051196113">+234 705 119 6113</a>
+                                        <a class="text-dark d-block" href="mailto:info@mmcharityfoundation.com">info@mmcharityfoundation.com</a>
+                                      
+                                    </div>
+                                  </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="card border-0 text-bg-warning">
+                                    <div class="card-body text-center py-3">
+                                        <h3 class="h5 mb-3"><i class="fa-solid fa-location pe-2"></i>Location</h3>
+                                        <p class="text-center">Plot 21 Mato Estate Iwajowa, Off Ifedapo Street Akingbade, Ibadan, Oyo State.</p>
+                                      
+                                    </div>
+                                  </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="card border-2 border-warning">
+                                    <div class="card-body text-center py-3">
+                                        <h3 class="h5 mb-3"><i class="fa-solid pe-2"></i>Social Media</h3>
+                                        <div class="footer-social">
+                                            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                                            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                                            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                                            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                                        </div>
+                                      
+                                    </div>
+                                  </div>
+                            </div>
+
+                        </div>
                         </div>
                     </div>
-                    <div class="col-lg-8 col-sm-7">
-                        <div class="contact-form bg-light rounded-2 shadow-sm">
-                            <div id="form-messages"></div>
-                            <form id="ajax-contact" method="post" action="https://html.theme-village.com/helpplus/mailer.php">
-                                <div class="form-group">
-                                    <label class="field-label" for="name">Your Name *</label>
-                                    <input class="field-input" type="text" id="name" name="name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="field-label" for="email">Your Email *</label>
-                                    <input class="field-input" type="email" id="email" name="email" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="field-label" for="message">Your Message *</label>
-                                    <textarea id="message" class="field-input" name="message" required></textarea>
-                                </div>
-                                <button type="submit" class="custom-btn">Send</button>
-                            </form>
-                        </div>
-                    </div>
+
                 </div>
+
             </div>
         </main>
-        
 
         <div class="volunteer-area bg-cover section-padding">
             <div class="container">
