@@ -4535,3 +4535,11 @@ blockquote::before, .blockquote::before {
 .button-amount {
     font-size: 90%;
 }
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url(images/bg-pattern.png);
+}
