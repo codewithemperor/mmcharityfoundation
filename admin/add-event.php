@@ -134,7 +134,7 @@
                 </div>
                 <div class="mt-4">
                     <?php addEvent(); ?>
-                   <form action="" method="post" enctype="multipart/form-data">
+                   <form action="add-event.php" method="post" enctype="multipart/form-data">
                     <div class="row g-2 mb-3">
                         <div class="col-md">
                             <div class="form-floating">

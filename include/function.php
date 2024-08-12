@@ -11,32 +11,36 @@ function addEvent(){
     }
 
     if (isset($_POST['addEvent'])) {
-        // Retrieve and sanitize form input values
         $eventName = $_POST['eventName'];
         $eventLocation = $_POST['eventLocation'];
         $eventDate = $_POST['eventDate'];
         $eventDescription = $_POST['eventDescription'];
-        $eventBudget = $_POST['eventBudget'];
+        $eventBudget = $_POST['eventBudget']; // New budget field
 
-        // Check if an image file is uploaded and no upload error occurred
+        // Check if an image file is uploaded
         if (isset($_FILES['eventCover']) && $_FILES['eventCover']['error'] == 0) {
             $eventCover = $_FILES['eventCover'];
 
             // Insert event details into the database
-            $query = "INSERT INTO events (eventName, eventLocation, eventDate, eventBudget, eventDescription) VALUES (?, ?, ?, ?, ?)";
-
+            $query = "INSERT INTO events (eventName, eventLocation, eventDate, eventBudget, eventDescription) VALUES(?, ?, ?, ?, ?)";
+            
             if ($stmt = $conn->prepare($query)) {
+                // Bind parameters and execute
                 $stmt->bind_param("ssssi", $eventName, $eventLocation, $eventDate, $eventBudget, $eventDescription);
-
+                
                 if ($stmt->execute()) {
-                    $eventId = $stmt->insert_id; // Get the inserted event's ID
+                    $eventId = $stmt->insert_id; // Get the auto-increment ID
 
                     // Generate custom event ID
-                    $customEventId = sprintf("EV-%02d-%04d-%d", date('m', strtotime($eventDate)), date('Y', strtotime($eventDate)), $eventId);
+                    $eventMonth = date('m', strtotime($eventDate));
+                    $eventYear = date('Y', strtotime($eventDate));
+                    $customEventId = "EV-$eventMonth-$eventYear-$eventId";
 
                     // Update the custom event ID in the database
                     $updateQuery = "UPDATE events SET customEventId = ? WHERE id = ?";
+                    
                     if ($updateStmt = $conn->prepare($updateQuery)) {
+                        // Bind parameters and execute
                         $updateStmt->bind_param("si", $customEventId, $eventId);
                         $updateStmt->execute();
                         $updateStmt->close();
@@ -44,7 +48,7 @@ function addEvent(){
 
                     // Process the uploaded image
                     $imageExtension = pathinfo($eventCover['name'], PATHINFO_EXTENSION);
-                    $imageName = "event_" . $customEventId . "." . $imageExtension;
+                    $imageName = "event" . $customEventId . "." . $imageExtension;
                     $targetDirectory = "../images/events/";
                     $targetFile = $targetDirectory . $imageName;
 
@@ -57,7 +61,9 @@ function addEvent(){
                     if (move_uploaded_file($eventCover['tmp_name'], $targetFile)) {
                         // Update the event record with the image name
                         $updateImageQuery = "UPDATE events SET eventCover = ? WHERE id = ?";
+                        
                         if ($updateImageStmt = $conn->prepare($updateImageQuery)) {
+                            // Bind parameters and execute
                             $updateImageStmt->bind_param("si", $imageName, $eventId);
                             $updateImageStmt->execute();
                             $updateImageStmt->close();
@@ -70,12 +76,12 @@ function addEvent(){
                         echo "<div class='alert alert-danger' role='alert'>Error uploading the event cover image.</div>";
                     }
                 } else {
-                    // Show error alert for query execution failure
+                    // Show error alert for query failure
                     echo "<div class='alert alert-danger' role='alert'>Error adding event: " . $conn->error . "</div>";
                 }
                 $stmt->close();
             } else {
-                echo "<div class='alert alert-danger' role='alert'>Prepare statement failed: " . $conn->error . "</div>";
+                echo "<div class='alert alert-danger' role='alert'>Prepare failed: " . $conn->error . "</div>";
             }
         } else {
             // Show error alert for file upload issues
@@ -83,7 +89,6 @@ function addEvent(){
         }
     }
 }
-
 
 // Function to view events
 function viewEvents() {
