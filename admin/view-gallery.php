@@ -126,7 +126,7 @@
                        
                     </div>
                     <div class="col-md-4 d-flex align-items-center justify-content-md-end mt-3 mt-md-0">
-                        <a href="add-event.php" class="btn bg-warning text-dark p-2 px-4">
+                        <a href="add-gallery.php" class="btn bg-warning text-dark p-2 px-4">
                             Add Event Gallery<i class="fa-regular fa-add ps-2"></i>
                         </a>
                     </div>

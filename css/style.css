@@ -605,6 +605,10 @@ input:focus, textarea:focus, .form-control:focus {
     border-radius: 30px;
     padding: 9px 28px;
 }
+
+.navbar.fixed-top{
+    border-bottom: solid 3px #dd5044 !important;
+}
 @media only screen and (min-width:1201px) and (max-width:1400px) {
     .navbar .custom-btn {
     padding: 8px 25px;
@@ -3744,7 +3748,7 @@ blockquote::before, .blockquote::before {
     color: #505050;
     display: inline-block;
     height: 40px;
-    line-height: 40px;
+    /* line-height: 0px !important; */
     margin: 0 4px;
     border: 1px solid #ebebeb;
     background: #fff;
@@ -4543,3 +4547,4 @@ blockquote::before, .blockquote::before {
     align-items: center;
     background: url(images/bg-pattern.png);
 }
+

@@ -302,9 +302,23 @@ function addEventMedia() {
         if (!empty($picturePath)) {
             $targetDirectory = "../images/gallery/";
             $targetFile = $targetDirectory . basename($picturePath);
+            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
             // Move the uploaded file to the target directory
-            if (!move_uploaded_file($_FILES['picturePath']['tmp_name'], $targetFile)) {
+            if (move_uploaded_file($_FILES['picturePath']['tmp_name'], $targetFile)) {
+                // Compress the image to a maximum of 70KB and save with "-thumb" suffix
+                $compressedFile = $targetDirectory . pathinfo($picturePath, PATHINFO_FILENAME) . "-thumb." . $imageFileType;
+                
+                if (compressImage($targetFile, $compressedFile, 70 * 1024)) {
+                    // Update the picturePath to the compressed file name
+                    $picturePath = basename($compressedFile);
+                } else {
+                    echo "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
+                            Failed to compress the image to the desired size, original image and thumb saved.
+                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                          </div>";
+                }
+            } else {
                 echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
                         Error uploading the picture.
                         <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>";
@@ -332,6 +346,62 @@ function addEventMedia() {
     }
 }
 
+// Function to compress an image to a target size
+function compressImage($sourcePath, $destinationPath, $maxSize) {
+    $info = getimagesize($sourcePath);
+    $mime = $info['mime'];
+
+    switch ($mime) {
+        case 'image/jpeg':
+            $image = imagecreatefromjpeg($sourcePath);
+            break;
+        case 'image/png':
+            $image = @imagecreatefrompng($sourcePath); // Suppress warning
+            break;
+        case 'image/gif':
+            $image = imagecreatefromgif($sourcePath);
+            break;
+        default:
+            echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                    Unsupported image format.
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                  </div>";
+            return false;
+    }
+
+    if ($image === false) {
+        echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                Failed to create image resource.
+                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+              </div>";
+        return false;
+    }
+
+    // Compress and save image
+    imagejpeg($image, $destinationPath, 75); // Adjust quality here
+
+    // Check file size and adjust quality if necessary
+    $currentSize = filesize($destinationPath);
+    if ($currentSize > $maxSize) {
+        $quality = 75;
+        while ($currentSize > $maxSize && $quality > 10) {
+            imagejpeg($image, $destinationPath, $quality);
+            $currentSize = filesize($destinationPath);
+            $quality -= 5;
+        }
+    }
+
+    imagedestroy($image);
+
+    if ($currentSize > $maxSize) {
+        return false;
+    }
+
+    return true;
+}
+
+
+
 function getEventOptions() {
     global $conn;
 
@@ -354,42 +424,6 @@ function getEventOptions() {
 }
 
 
-
-
-function compressImage($source, $destination, $quality) {
-    // Get the image info
-    $imgInfo = getimagesize($source);
-    $mime = $imgInfo['mime'];
-
-    // Create a new image from the file
-    switch ($mime) {
-        case 'image/jpeg':
-            $image = imagecreatefromjpeg($source);
-            break;
-        case 'image/png':
-            $image = imagecreatefrompng($source);
-            break;
-        case 'image/gif':
-            $image = imagecreatefromgif($source);
-            break;
-        default:
-            return false;
-    }
-
-    // Save the image
-    imagejpeg($image, $destination, $quality);
-
-    // Free up memory
-    imagedestroy($image);
-
-    // Check file size and adjust quality if needed
-    while (filesize($destination) > 500 * 1024) {
-        $quality -= 10;
-        imagejpeg($image, $destination, $quality);
-    }
-
-    return $destination;
-}
 
 
 
@@ -461,30 +495,67 @@ function deleteMedia() {
                         // If the deletion was successful, remove the file from the folder if it's a picture
                         if ($mediaType === 'picture' && $picturePath) {
                             $filePath = "../images/gallery/" . $picturePath;
+                            $thumbnailPath = "../images/gallery/" . pathinfo($picturePath, PATHINFO_FILENAME) . '-thumb.' . pathinfo($picturePath, PATHINFO_EXTENSION);
+
+                            $originalDeleted = false;
+                            $thumbDeleted = false;
+
+                            // Delete the original file
                             if (file_exists($filePath)) {
                                 if (unlink($filePath)) {
-                                    echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
-                                                Media and file deleted successfully
-                                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                                        </div>";
-                                    
+                                    $originalDeleted = true;
                                 } else {
                                     echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                                            Error deleting the file.
+                                            Error deleting the original file: $filePath
                                             <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                                         </div>";
-                            
                                 }
                             } else {
                                 echo "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
-                                        File does not exist: $filePath
+                                        Original file does not exist: $filePath
+                                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                    </div>";
+                            }
+
+                            // Delete the thumbnail file
+                            if (file_exists($thumbnailPath)) {
+                                if (unlink($thumbnailPath)) {
+                                    $thumbDeleted = true;
+                                } else {
+                                    echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                                            Error deleting the thumbnail file: $thumbnailPath
+                                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                        </div>";
+                                }
+                            } else {
+                                echo "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
+                                        Thumbnail file does not exist: $thumbnailPath
+                                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                    </div>";
+                            }
+
+                            // Success message if both were deleted
+                            if ($originalDeleted && $thumbDeleted) {
+                                echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+                                        Both media files deleted successfully.
+                                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                    </div>";
+                            } elseif ($originalDeleted) {
+                                echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+                                        Original media file deleted successfully, but the thumbnail could not be deleted.
+                                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                    </div>";
+                            } elseif ($thumbDeleted) {
+                                echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+                                        Thumbnail deleted successfully, but the original file could not be deleted.
                                         <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                                     </div>";
                             }
                         } else {
-                            echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>Media deleted successfully.
-                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                            </div>";
+                            echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+                                    Media deleted successfully.
+                                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                </div>";
                         }
                     } else {
                         echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>Error deleting media: " . $conn->error . "
@@ -508,6 +579,7 @@ function deleteMedia() {
         }
     }
 }
+
 
 
 

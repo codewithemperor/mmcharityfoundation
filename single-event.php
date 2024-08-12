@@ -47,7 +47,7 @@ if (isset($_GET['id'])) {
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                             <li class="breadcrumb-item"><a href="event.php">Events</a></li>
-                            <li class="breadcrumb-item active" aria-current="page"><?php echo htmlspecialchars($event['eventName']); ?></li>
+                            <li class="breadcrumb-item active" aria-current="page"><?php echo $customEventId; ?></li>
                         </ol>
                     </nav>
                 </div>

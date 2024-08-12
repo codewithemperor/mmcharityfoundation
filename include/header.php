@@ -22,12 +22,13 @@
 
         <link rel="stylesheet" href="css/owl.carousel.min.css">
         <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"> -->
-        
-        <link rel="stylesheet" href="css/magnific-popup.css">
-        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"> -->
 
         <link rel="stylesheet" href="css/nice-select.css">
-        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"> -->    
+        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"> -->  
+         
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.2/css/lightgallery.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.0/css/lightgallery.css" rel="stylesheet">
+        
 
         <link rel="stylesheet" href="css/style.css">    
         <link rel="stylesheet" href="css/responsive.css">
@@ -119,7 +120,7 @@
                             <ul class="navbar-nav mx-auto align-items-lg-center justify-content-center col">
                                 <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
                                 <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
-                                <li class="nav-item"><a href="event.php" class="nav-link">Events</a></li>
+                                <li class="nav-item"><a href="event.php" class="nav-link text-nowrap">Our Projects</a></li>
                                 <li class="nav-item"><a href="gallery.php" class="nav-link">Gallery</a></li>
                                 <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
                             </ul>
