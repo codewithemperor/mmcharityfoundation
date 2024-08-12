@@ -6,6 +6,8 @@ function addEvent() {
     global $conn;
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        echo "<div class='alert alert-info' role='alert'>Form submission detected.</div>";
+
         $eventName = $_POST['eventName'];
         $eventLocation = $_POST['eventLocation'];
         $eventDate = $_POST['eventDate'];
@@ -15,7 +17,7 @@ function addEvent() {
 
         // Validate that the file is uploaded
         if ($eventCover['error'] !== 0) {
-            echo "<div class='alert alert-danger' role='alert'>Error uploading the event cover image.</div>";
+            echo "<div class='alert alert-danger' role='alert'>Error uploading the event cover image: " . $eventCover['error'] . "</div>";
             return;
         }
 
@@ -68,8 +70,11 @@ function addEvent() {
         }
 
         $stmt->close();
+    } else {
+        echo "<div class='alert alert-warning' role='alert'>Form was not submitted using POST method.</div>";
     }
 }
+
 
 
 // Function to view events

@@ -1,3 +1,9 @@
+<?php
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+    ?>
+
 <?php require_once '../include/function.php'; 
     checkAdminSession(); 
     if (isset($_GET['logout'])) {
@@ -132,7 +138,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="mt-4">
+                    <div class="mt-4">
                         <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') { addEvent(); } ?>
                         <form action="add-event.php" method="post" enctype="multipart/form-data">
                             <div class="row g-2 mb-3">
