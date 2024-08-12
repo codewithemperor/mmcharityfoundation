@@ -13,15 +13,8 @@ function addEvent() {
         $eventDate = $_POST['eventDate'];
         $eventDescription = $_POST['eventDescription'];
         $eventBudget = $_POST['eventBudget'];
-        $eventCover = $_FILES['eventCover'];
 
-        // Validate that the file is uploaded
-        if ($eventCover['error'] !== 0) {
-            echo "<div class='alert alert-danger' role='alert'>Error uploading the event cover image: " . $eventCover['error'] . "</div>";
-            return;
-        }
-
-        // Insert event details into the database
+        // Insert event details into the database without eventCover
         $stmt = $conn->prepare("INSERT INTO events (eventName, eventLocation, eventDate, eventBudget, eventDescription) VALUES(?, ?, ?, ?, ?)");
         $stmt->bind_param("sssds", $eventName, $eventLocation, $eventDate, $eventBudget, $eventDescription);
 
@@ -39,41 +32,42 @@ function addEvent() {
             $updateStmt->execute();
             $updateStmt->close();
 
-            // Process the uploaded image
-            $imageExtension = pathinfo($eventCover['name'], PATHINFO_EXTENSION);
-            $imageName = "event" . $customEventId . "." . $imageExtension;
-            $targetDirectory = "../images/events/";
-            $targetFile = $targetDirectory . $imageName;
+            // Check if an image file is uploaded
+            if (isset($_FILES['eventCover']) && $_FILES['eventCover']['error'] == 0) {
+                $eventCover = $_FILES['eventCover'];
+                $imageExtension = pathinfo($eventCover['name'], PATHINFO_EXTENSION);
+                $imageName = "event" . $customEventId . "." . $imageExtension;
+                $targetDirectory = "../images/events/";
+                $targetFile = $targetDirectory . $imageName;
 
-            // Create the directory if it doesn't exist
-            if (!file_exists($targetDirectory)) {
-                mkdir($targetDirectory, 0777, true);
-            }
+                // Create the directory if it doesn't exist
+                if (!file_exists($targetDirectory)) {
+                    mkdir($targetDirectory, 0777, true);
+                }
 
-            // Move the uploaded file to the target directory
-            if (move_uploaded_file($eventCover['tmp_name'], $targetFile)) {
-                // Update the event record with the image name
-                $updateImageStmt = $conn->prepare("UPDATE events SET eventCover = ? WHERE id = ?");
-                $updateImageStmt->bind_param("si", $imageName, $eventId);
-                $updateImageStmt->execute();
-                $updateImageStmt->close();
+                // Move the uploaded file to the target directory
+                if (move_uploaded_file($eventCover['tmp_name'], $targetFile)) {
+                    // Update the event record with the image name
+                    $updateImageStmt = $conn->prepare("UPDATE events SET eventCover = ? WHERE id = ?");
+                    $updateImageStmt->bind_param("si", $imageName, $eventId);
+                    $updateImageStmt->execute();
+                    $updateImageStmt->close();
 
-                // Show success alert
-                echo "<div class='alert alert-success' role='alert'>Event added successfully with ID: $customEventId</div>";
+                    echo "<div class='alert alert-success' role='alert'>Event added successfully with ID: $customEventId</div>";
+                } else {
+                    echo "<div class='alert alert-danger' role='alert'>Error uploading the event cover image.</div>";
+                }
             } else {
-                // Show error alert for image upload failure
-                echo "<div class='alert alert-danger' role='alert'>Error uploading the event cover image.</div>";
+                echo "<div class='alert alert-warning' role='alert'>No file uploaded or file upload error, event added without cover image.</div>";
             }
         } else {
-            // Show error alert for query failure
             echo "<div class='alert alert-danger' role='alert'>Error adding event: " . $conn->error . "</div>";
         }
 
         $stmt->close();
-    } else {
-        echo "<div class='alert alert-warning' role='alert'>Form was not submitted using POST method.</div>";
     }
 }
+
 
 
 
