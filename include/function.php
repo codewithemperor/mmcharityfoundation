@@ -14,7 +14,7 @@ function addEvent() {
         $eventDescription = $_POST['eventDescription'];
         $eventBudget = $_POST['eventBudget'];
 
-        // Insert event details into the database without eventCover
+        // Insert event details into the database without customEventId
         $stmt = $conn->prepare("INSERT INTO events (eventName, eventLocation, eventDate, eventBudget, eventDescription) VALUES(?, ?, ?, ?, ?)");
         $stmt->bind_param("sssds", $eventName, $eventLocation, $eventDate, $eventBudget, $eventDescription);
 
@@ -67,6 +67,8 @@ function addEvent() {
         $stmt->close();
     }
 }
+
+
 
 
 
