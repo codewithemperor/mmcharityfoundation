@@ -170,7 +170,7 @@
                         </div>
 
                         <div class="col">
-                            <button type="submit" name="addEventMedia" class="btn btn-success w-100">Add Event Media</button>
+                            <button type="submit" name="addEventMedia" class="btn btn-success w-100">Submit Event Media</button>
                         </div>
                     </form>
                 </div>

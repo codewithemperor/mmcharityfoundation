@@ -133,58 +133,56 @@
                     </div>
                 </div>
                 <div class="mt-4">
-                    <?php addEvent(); ?>
-                   <form action="add-event.php" method="post" enctype="multipart/form-data">
-                    <div class="row g-2 mb-3">
-                        <div class="col-md">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" name="eventName" placeholder="Event Name" required="">
-                                <label for="floatingInputGrid">Event Name</label>
+                        <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') { addEvent(); } ?>
+                        <form action="add-event.php" method="post" enctype="multipart/form-data">
+                            <div class="row g-2 mb-3">
+                                <div class="col-md">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" name="eventName" placeholder="Event Name" required="">
+                                        <label for="floatingInputGrid">Event Name</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" name="eventLocation" placeholder="Event Name" required="">
+                                        <label for="floatingInputGrid">Event Location</label>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-md">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" name="eventLocation" placeholder="Event Name" required="">
-                                <label for="floatingInputGrid">Event Location</label>
+                            <div class="row g-2 mb-3">
+                                <div class="col-md">
+                                    <div class="form-floating">
+                                        <input type="datetime-local" class="form-control" name="eventDate" placeholder="Event Date" required>
+                                        <label for="floatingInputGrid">Event Date</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control" name="eventBudget" placeholder="Event Budget" required>
+                                        <label for="floatingInputGrid">Event Budget</label>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="row g-2 mb-3">
-                        <div class="col-md">
-                          <div class="form-floating">
-                            <input type="datetime-local" class="form-control" name="eventDate" placeholder="farm name" required>
-                            <label for="floatingInputGrid">Event Date</label>
-                          </div>
-                        </div>
-
-                        <div class="col-md">
-                          <div class="form-floating">
-                            <input type="number" class="form-control" name="eventBudget" placeholder="farm name" required>
-                            <label for="floatingInputGrid">Event Budget</label>
-                          </div>
-                        </div>
-                    </div>
-
-                    <div class="form-floating mb-3">
+                            <div class="form-floating mb-3">
                                 <input type="file" class="form-control" name="eventCover" placeholder="Upload Event Cover" accept="image/*" required>
                                 <label for="floatingInputGrid">Upload Event Cover</label>
-                              </div>
+                            </div>
 
-                    <div class="form-floating mb-3">
-                        <textarea class="form-control" placeholder="Leave a comment here" name="eventDescription" style="height: 150px" required></textarea>
-                        <label for="floatingTextarea2">Event Description</label>
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" placeholder="Leave a comment here" name="eventDescription" style="height: 150px" required></textarea>
+                                <label for="floatingTextarea2">Event Description</label>
+                            </div>
+
+                            <div class="col">
+                                <button type="submit" name="addEvent" class="btn btn-success w-100">Submit Event</button>
+                            </div>
+                        </form>
                     </div>
 
-                    <div class="col">
-                        <input type="submit" name="addEvent" value="Add event" class="btn btn-success w-100">
-                      </div>
-
-                   </form>
-                       
-                        
-                </div>
                 </div>
         </section>
     

@@ -2,93 +2,75 @@
 include_once 'db.php'; // Include your database connection
 
 // Function to add an event
-function addEvent(){
-    global $conn; // Use the global database connection variable
+function addEvent() {
+    global $conn;
 
-    if (!$conn) {
-        echo "<div class='alert alert-danger' role='alert'>Database connection is not established.</div>";
-        return;
-    }
-
-    if (isset($_POST['addEvent'])) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $eventName = $_POST['eventName'];
         $eventLocation = $_POST['eventLocation'];
         $eventDate = $_POST['eventDate'];
         $eventDescription = $_POST['eventDescription'];
-        $eventBudget = $_POST['eventBudget']; // New budget field
+        $eventBudget = $_POST['eventBudget'];
+        $eventCover = $_FILES['eventCover'];
 
-        // Check if an image file is uploaded
-        if (isset($_FILES['eventCover']) && $_FILES['eventCover']['error'] == 0) {
-            $eventCover = $_FILES['eventCover'];
+        // Validate that the file is uploaded
+        if ($eventCover['error'] !== 0) {
+            echo "<div class='alert alert-danger' role='alert'>Error uploading the event cover image.</div>";
+            return;
+        }
 
-            // Insert event details into the database
-            $query = "INSERT INTO events (eventName, eventLocation, eventDate, eventBudget, eventDescription) VALUES(?, ?, ?, ?, ?)";
-            
-            if ($stmt = $conn->prepare($query)) {
-                // Bind parameters and execute
-                $stmt->bind_param("ssssi", $eventName, $eventLocation, $eventDate, $eventBudget, $eventDescription);
-                
-                if ($stmt->execute()) {
-                    $eventId = $stmt->insert_id; // Get the auto-increment ID
+        // Insert event details into the database
+        $stmt = $conn->prepare("INSERT INTO events (eventName, eventLocation, eventDate, eventBudget, eventDescription) VALUES(?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssds", $eventName, $eventLocation, $eventDate, $eventBudget, $eventDescription);
 
-                    // Generate custom event ID
-                    $eventMonth = date('m', strtotime($eventDate));
-                    $eventYear = date('Y', strtotime($eventDate));
-                    $customEventId = "EV-$eventMonth-$eventYear-$eventId";
+        if ($stmt->execute()) {
+            $eventId = $stmt->insert_id;
 
-                    // Update the custom event ID in the database
-                    $updateQuery = "UPDATE events SET customEventId = ? WHERE id = ?";
-                    
-                    if ($updateStmt = $conn->prepare($updateQuery)) {
-                        // Bind parameters and execute
-                        $updateStmt->bind_param("si", $customEventId, $eventId);
-                        $updateStmt->execute();
-                        $updateStmt->close();
-                    }
+            // Generate custom event ID
+            $eventMonth = date('m', strtotime($eventDate));
+            $eventYear = date('Y', strtotime($eventDate));
+            $customEventId = "EV-$eventMonth-$eventYear-$eventId";
 
-                    // Process the uploaded image
-                    $imageExtension = pathinfo($eventCover['name'], PATHINFO_EXTENSION);
-                    $imageName = "event" . $customEventId . "." . $imageExtension;
-                    $targetDirectory = "../images/events/";
-                    $targetFile = $targetDirectory . $imageName;
+            // Update the custom event ID in the database
+            $updateStmt = $conn->prepare("UPDATE events SET customEventId = ? WHERE id = ?");
+            $updateStmt->bind_param("si", $customEventId, $eventId);
+            $updateStmt->execute();
+            $updateStmt->close();
 
-                    // Create the directory if it doesn't exist
-                    if (!file_exists($targetDirectory)) {
-                        mkdir($targetDirectory, 0777, true);
-                    }
+            // Process the uploaded image
+            $imageExtension = pathinfo($eventCover['name'], PATHINFO_EXTENSION);
+            $imageName = "event" . $customEventId . "." . $imageExtension;
+            $targetDirectory = "../images/events/";
+            $targetFile = $targetDirectory . $imageName;
 
-                    // Move the uploaded file to the target directory
-                    if (move_uploaded_file($eventCover['tmp_name'], $targetFile)) {
-                        // Update the event record with the image name
-                        $updateImageQuery = "UPDATE events SET eventCover = ? WHERE id = ?";
-                        
-                        if ($updateImageStmt = $conn->prepare($updateImageQuery)) {
-                            // Bind parameters and execute
-                            $updateImageStmt->bind_param("si", $imageName, $eventId);
-                            $updateImageStmt->execute();
-                            $updateImageStmt->close();
+            // Create the directory if it doesn't exist
+            if (!file_exists($targetDirectory)) {
+                mkdir($targetDirectory, 0777, true);
+            }
 
-                            // Show success alert
-                            echo "<div class='alert alert-success' role='alert'>Event added successfully with ID: $customEventId</div>";
-                        }
-                    } else {
-                        // Show error alert for image upload failure
-                        echo "<div class='alert alert-danger' role='alert'>Error uploading the event cover image.</div>";
-                    }
-                } else {
-                    // Show error alert for query failure
-                    echo "<div class='alert alert-danger' role='alert'>Error adding event: " . $conn->error . "</div>";
-                }
-                $stmt->close();
+            // Move the uploaded file to the target directory
+            if (move_uploaded_file($eventCover['tmp_name'], $targetFile)) {
+                // Update the event record with the image name
+                $updateImageStmt = $conn->prepare("UPDATE events SET eventCover = ? WHERE id = ?");
+                $updateImageStmt->bind_param("si", $imageName, $eventId);
+                $updateImageStmt->execute();
+                $updateImageStmt->close();
+
+                // Show success alert
+                echo "<div class='alert alert-success' role='alert'>Event added successfully with ID: $customEventId</div>";
             } else {
-                echo "<div class='alert alert-danger' role='alert'>Prepare failed: " . $conn->error . "</div>";
+                // Show error alert for image upload failure
+                echo "<div class='alert alert-danger' role='alert'>Error uploading the event cover image.</div>";
             }
         } else {
-            // Show error alert for file upload issues
-            echo "<div class='alert alert-danger' role='alert'>No file uploaded or file upload error.</div>";
+            // Show error alert for query failure
+            echo "<div class='alert alert-danger' role='alert'>Error adding event: " . $conn->error . "</div>";
         }
+
+        $stmt->close();
     }
 }
+
 
 // Function to view events
 function viewEvents() {
