@@ -190,7 +190,7 @@
                                                 $eventResult = $conn->query($eventQuery);
                                                 $eventName = $eventResult->fetch_assoc()['eventName'];
                                                 $pathinfo_FILENAME = pathinfo($picturePath, PATHINFO_FILENAME);
-                                                $pathinfo_EXTENSION = pathinfo($picturePath, PATHINFO_EXTENSION);
+                                                $pathinfo_EXTENSION = strtolower(pathinfo($picturePath, PATHINFO_EXTENSION));
 
                                                 echo "
                                                 <li class='col' data-src='images/gallery/$picturePath' data-sub-html='<h4>$eventName</h4>'>
