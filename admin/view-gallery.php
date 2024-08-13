@@ -139,6 +139,7 @@
                                 <th class="py-3">Event Id</th>
                                 <th class="py-3">Event Name</th>
                                 <th class="py-3">Event Location</th>
+                                <th class="py-3">Gallery Type</th>
                                 <th class="py-3">Action</th>
                             </tr>
                         </thead>

@@ -436,6 +436,7 @@ function displayGalleryItems() {
                     <td class='py-2'>$customEventId</td>
                     <td class='py-2'>$eventName</td>
                     <td class='py-2'>$eventLocation</td>
+                    <td class='py-2'>$mediaType</td>
                     <td class='py-2'>
                         <a href='$link' target='_blank' class='btn btn-primary me-2'>View</a>
                         <a href='view-gallery.php?deleteMedia=$mediaId' class='btn btn-danger'>Delete</a>
