@@ -41,7 +41,7 @@
                 $totalPages = ceil($totalEvents / $limit); // Calculate the total number of pages
 
                 // Query to get the events for the current page
-                $eventsQuery = "SELECT customEventId, eventName, eventDescription, eventDate, eventLocation FROM events LIMIT $limit OFFSET $offset";
+                $eventsQuery = "SELECT customEventId, eventName, eventDescription, eventDate, eventCover, eventLocation FROM events LIMIT $limit OFFSET $offset";
                 $eventsResult = $conn->query($eventsQuery);
 
                 ?>
@@ -49,7 +49,7 @@
                 <div class="event-list">
                     <?php while($event = $eventsResult->fetch_assoc()): ?>
                     <div class="single-event">
-                        <figure class="event-thumb" style="background: url('images/events/flyers-1.jpg') no-repeat center top / cover;">
+                        <figure class="event-thumb" style="background: url('<?php $event['eventCover'] ?>') no-repeat center top / cover;">
                             <figcaption><strong><?php echo date('d', strtotime($event['eventDate'])); ?></strong> <?php echo date('M', strtotime($event['eventDate'])); ?></figcaption>
                         </figure>
                         <div class="event-details">
