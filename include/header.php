@@ -103,7 +103,7 @@
 
             <nav class="navbar navbar-expand-lg bg-light px-md-5 py-2 p-lg-0 ">
                 <div class="container px-lg-0">
-                    <a class="navbar-brand col-6 col-md-4 d-block d-lg-none" href="index">
+                    <a class="navbar-brand col-6 col-md-4 d-block d-lg-none" href="index.php">
                         <img src="images/components/logo.png" alt="Mosesmoradeun Charity Organization Hunger Logo" class="w-100"/>
                     </a>
                     <button class="navbar-toggler offcanvas-nav-btn" type="button">

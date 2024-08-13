@@ -31,7 +31,7 @@ function display_random_events() {
             <div class="col">
                 <div class="single-project rounded-2 shadow">
                     <figure class="project-thumb">
-                        <img src="images/events/' . htmlspecialchars($event['eventCover']) . '" alt="">
+                        <img src="images/events/' . htmlspecialchars($event['eventCover']) . '" alt="Moses Moradeun  Charity Foundation">
                     </figure>
                     <div class="project-info p-lg-4 p-3">
                         <h3><a href="single-cause.php?id=' . htmlspecialchars($event['customEventId']) . '">' . htmlspecialchars($event['eventName']) . '</a></h3>
