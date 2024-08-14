@@ -132,7 +132,7 @@
                     </div>
                 </div>
 
-                x
+                
 
                 <div class="mt-4 table-responsive">
                     <?php deleteEvent() ?>

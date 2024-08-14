@@ -195,7 +195,7 @@
                                                 echo "
                                                 <li class='col' data-src='images/gallery/$picturePath' data-sub-html='<h4>$eventName</h4>'>
                                                     <a href=''>
-                                                        <img class='img-responsive' src='images/gallery/$pathinfo_FILENAME-thumb.$pathinfo_EXTENSION' alt='MosesMoradeun Charity Foundation Picture Thumb'>
+                                                        <img class='img-responsive' src='images/gallery/$picturePath' alt='MosesMoradeun Charity Foundation Picture Thumb'>
                                                     </a>
                                                 </li>";
                                             }

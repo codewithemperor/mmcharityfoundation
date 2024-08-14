@@ -1,6 +1,28 @@
 
 
     <?php require_once 'include/header.php' ?>
+    <?php
+    // Include the database connection
+    include_once 'include/db.php';
+
+    // Initialize variables
+    $totalExpenses = 0;
+    $totalEvents = 0;
+
+    // Query to calculate total expenses (summing the eventBudget)
+    $expenseQuery = "SELECT SUM(eventBudget) as totalExpenses FROM events";
+    $result = $conn->query($expenseQuery);
+    if ($result && $row = $result->fetch_assoc()) {
+        $totalExpenses = $row['totalExpenses'];
+    }
+
+    // Query to count total events
+    $eventQuery = "SELECT COUNT(*) as totalEvents FROM events";
+    $result = $conn->query($eventQuery);
+    if ($result && $row = $result->fetch_assoc()) {
+        $totalEvents = $row['totalEvents'];
+    }
+    ?>
 
     <!-- Banner Statrt Here -->
     <section class="banner-area">
@@ -153,6 +175,7 @@
     <!-- Our Mission Ends here -->
     
     <!-- Counter Area Section Start -->
+    
     <section class="counter-area">
         <div class="container">
             <div class="row row-cols-2 row-cols-md-4">
@@ -166,14 +189,14 @@
                 <div class="col">
                     <div class="single-counter">
                         <img src="images/components/ct2.png" alt>
-                        <span class="counter">50000</span>
+                        <span class="counter"><?php echo number_format($totalExpenses, 0, '.', ','); ?></span>
                         <h3>Donation</h3>
                     </div>
                 </div>
                 <div class="col">
                     <div class="single-counter">
                         <img src="images/components/ct3.png" alt>
-                        <span class="counter">75</span>
+                        <span class="counter"><?php echo $totalEvents; ?></span>
                         <h3>Total Project</h3>
                     </div>
                 </div>
@@ -187,6 +210,7 @@
             </div>
         </div>
     </section>
+
     <!-- Counter Area Section End -->
 
     <!-- Causes Area Section Start -->

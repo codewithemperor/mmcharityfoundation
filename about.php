@@ -1,5 +1,28 @@
 
     <?php require_once 'include/header.php' ?>
+    <?php
+    // Include the database connection
+    include_once 'include/db.php';
+
+    // Initialize variables
+    $totalExpenses = 0;
+    $totalEvents = 0;
+
+    // Query to calculate total expenses (summing the eventBudget)
+    $expenseQuery = "SELECT SUM(eventBudget) as totalExpenses FROM events";
+    $result = $conn->query($expenseQuery);
+    if ($result && $row = $result->fetch_assoc()) {
+        $totalExpenses = $row['totalExpenses'];
+    }
+
+    // Query to count total events
+    $eventQuery = "SELECT COUNT(*) as totalEvents FROM events";
+    $result = $conn->query($eventQuery);
+    if ($result && $row = $result->fetch_assoc()) {
+        $totalEvents = $row['totalEvents'];
+    }
+    ?>
+
 
     <section class="promo-area" data-stellar-background-ratio="0.5">
         <div class="container">
@@ -72,14 +95,14 @@
                 <div class="col">
                     <div class="single-counter">
                         <img src="images/components/ct2.png" alt>
-                        <span class="counter">50000</span>
+                        <span class="counter"><?php echo number_format($totalExpenses, 0, '.', ','); ?></span>
                         <h3>Donation</h3>
                     </div>
                 </div>
                 <div class="col">
                     <div class="single-counter">
                         <img src="images/components/ct3.png" alt>
-                        <span class="counter">75</span>
+                        <span class="counter"><?php echo $totalEvents; ?></span>
                         <h3>Total Project</h3>
                     </div>
                 </div>

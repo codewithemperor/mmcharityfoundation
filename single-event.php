@@ -20,7 +20,7 @@ if (isset($_GET['id'])) {
     }
 
     // Query to get event media (pictures)
-    $mediaQuery = "SELECT picturePath FROM event_media WHERE customEventId = ? AND mediaType = 'picture' ORDER BY RAND() LIMIT 2";
+    $mediaQuery = "SELECT picturePath FROM event_media WHERE customEventId = ? AND mediaType = 'picture' ORDER BY RAND() LIMIT 6";
     $stmt = $conn->prepare($mediaQuery);
     $stmt->bind_param("s", $customEventId);
     $stmt->execute();
@@ -85,15 +85,17 @@ if (isset($_GET['id'])) {
 
                         <div class="cause-gallery">
                             <?php if (count($media) > 0): ?>
-                                <ul>
+                                <div class="row row-cols-1 row-cols-md-2 g-3">
                                     <?php foreach ($media as $item): ?>
-                                        <li><img src="images/gallery/<?php echo htmlspecialchars($item['picturePath']); ?>" alt></li>
+                                        <div class="col"><img src="images/gallery/<?php echo htmlspecialchars($item['picturePath']); ?>" alt="Moses Moradeun Charity Foundation"></div>
                                     <?php endforeach; ?>
-                                </ul>
+                                </div>
                             <?php else: ?>
                                 <p>No media for this event.</p>
                             <?php endif; ?>
-                            <a href="gallery.php">View more</a>
+                            <div class="col text-center">
+                                <a class="custom-btn mt-3" href="gallery.php">View more</a>
+                            </div>
                         </div>
                     </div>
 

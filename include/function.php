@@ -127,6 +127,19 @@ function deleteEvent() {
     if (isset($_GET['deleteEvent'])) {
         $eventId = intval($_GET['deleteEvent']);
         
+        echo "<script>
+                if (confirm('Are you sure you want to delete this event?')) {
+                    window.location.href = '?confirmedDeleteEvent=$eventId';
+                } else {
+                    window.location.href = '?eventNotDeleted';
+                }
+              </script>";
+    }
+
+    // Handling the confirmed deletion
+    if (isset($_GET['confirmedDeleteEvent'])) {
+        $eventId = intval($_GET['confirmedDeleteEvent']);
+
         // Fetch the event cover image name first
         $selectQuery = "SELECT eventCover FROM events WHERE id = ?";
         if ($stmt = $conn->prepare($selectQuery)) {
@@ -173,6 +186,7 @@ function deleteEvent() {
         }
     }
 }
+
 
 
 
@@ -265,7 +279,6 @@ function addEventMedia() {
         $eventCode = $_POST['eventCode'];
         $mediaType = $_POST['mediaType'];
         $videoLink = $_POST['videoLink'] ?? '';
-        $picturePath = $_FILES['picturePath']['name'] ?? '';
 
         // Fetch event from the database using the event code
         $stmt = $conn->prepare("SELECT * FROM events WHERE customEventId = ?");
@@ -281,53 +294,75 @@ function addEventMedia() {
             return;
         }
 
-        // If picture is uploaded, process the upload
-        if (!empty($picturePath)) {
+        // Handle multiple picture uploads
+        if ($mediaType === 'picture' && !empty($_FILES['picturePath']['name'][0])) {
             $targetDirectory = "../images/gallery/";
-            $targetFile = $targetDirectory . basename($picturePath);
-            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-            // Move the uploaded file to the target directory
-            if (move_uploaded_file($_FILES['picturePath']['tmp_name'], $targetFile)) {
-                // Compress the image to a maximum of 70KB and save with "-thumb" suffix
-                $compressedFile = $targetDirectory . pathinfo($picturePath, PATHINFO_FILENAME) . "-thumb." . $imageFileType;
-                
-                if (compressImage($targetFile, $compressedFile, 70 * 1024)) {
-                    // Update the picturePath to the compressed file name
-                    $picturePath = basename($compressedFile);
+            // Loop through each uploaded file
+            foreach ($_FILES['picturePath']['name'] as $index => $pictureName) {
+                $picturePath = $_FILES['picturePath']['name'][$index];
+                $targetFile = $targetDirectory . basename($picturePath);
+                $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+                // Move the uploaded file to the target directory
+                if (move_uploaded_file($_FILES['picturePath']['tmp_name'][$index], $targetFile)) {
+                    // Compress the image to a maximum of 70KB and save with "-thumb" suffix
+                    $compressedFile = $targetDirectory . pathinfo($picturePath, PATHINFO_FILENAME) . "-thumb." . $imageFileType;
+
+                    if (compressImage($targetFile, $compressedFile, 70 * 1024)) {
+                        // Update the picturePath to the compressed file name
+                        $picturePath = basename($compressedFile);
+                    } else {
+                        echo "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
+                                Failed to compress the image to the desired size, original image and thumb saved.
+                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                              </div>";
+                    }
+
+                    // Insert the media details into the event_media table
+                    $stmt = $conn->prepare("INSERT INTO event_media (customEventId, mediaType, videoLink, picturePath) VALUES (?, ?, ?, ?)");
+                    $stmt->bind_param("ssss", $eventCode, $mediaType, $videoLink, $picturePath);
+
+                    if (!$stmt->execute()) {
+                        echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                                Error adding event media: " . $conn->error . "
+                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                              </div>";
+                    }
                 } else {
-                    echo "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
-                            Failed to compress the image to the desired size, original image and thumb saved.
+                    echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                            Error uploading the picture.
                             <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                           </div>";
                 }
-            } else {
-                echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                        Error uploading the picture.
-                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>";
-                return;
             }
-        }
 
-        // Insert the media details into the event_media table 
-        $stmt = $conn->prepare("INSERT INTO event_media (customEventId, mediaType, videoLink, picturePath) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $eventCode, $mediaType, $videoLink, $picturePath);
-
-        if ($stmt->execute()) {
             echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
                     Event media added successfully.
                     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                   </div>";
-        } else {
-            echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                    Error adding event media: " . $conn->error . "
-                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                  </div>";
+        } elseif ($mediaType === 'video') {
+            // Insert video details into the event_media table
+            $stmt = $conn->prepare("INSERT INTO event_media (customEventId, mediaType, videoLink, picturePath) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $eventCode, $mediaType, $videoLink, '');
+
+            if ($stmt->execute()) {
+                echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+                        Event media added successfully.
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                      </div>";
+            } else {
+                echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                        Error adding event media: " . $conn->error . "
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                      </div>";
+            }
         }
 
         $stmt->close();
     }
 }
+
 
 // Function to compress an image to a target size
 function compressImage($sourcePath, $destinationPath, $maxSize) {
@@ -459,6 +494,19 @@ function deleteMedia() {
     if (isset($_GET['deleteMedia'])) {
         $mediaId = intval($_GET['deleteMedia']);
         
+        echo "<script>
+                if (confirm('Are you sure you want to delete this media?')) {
+                    window.location.href = '?confirmedDeleteMedia=$mediaId';
+                } else {
+                    window.location.href = '?mediaNotDeleted';
+                }
+              </script>";
+    }
+
+    // Handling the confirmed deletion
+    if (isset($_GET['confirmedDeleteMedia'])) {
+        $mediaId = intval($_GET['confirmedDeleteMedia']);
+        
         // Fetch the media details
         $selectQuery = "SELECT mediaType, picturePath FROM event_media WHERE id = ?";
         if ($stmt = $conn->prepare($selectQuery)) {
@@ -563,6 +611,7 @@ function deleteMedia() {
         }
     }
 }
+
 
 
 

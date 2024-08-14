@@ -134,7 +134,7 @@
                 </div>
 
                 <div class="mt-4">
-                    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {addEventMedia();} ?>
+                    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') { addEventMedia(); } ?>
                     <form action="add-gallery.php" method="post" enctype="multipart/form-data">
                         <div class="row g-2 mb-3">
                             <div class="col-md">
@@ -142,7 +142,7 @@
                                     <input type="text" class="form-control" id="eventInput" name="eventCode" placeholder="Enter Event Code" list="eventList" required>
                                     <label for="eventInput">Enter Event Code</label>
                                     <datalist id="eventList">
-                                    <?php getEventOptions();?>
+                                        <?php getEventOptions(); ?>
                                     </datalist>
                                 </div>
                             </div>
@@ -165,7 +165,7 @@
                         </div>
 
                         <div class="form-floating mb-3" id="pictureInputDiv" style="display: none;">
-                            <input type="file" class="form-control" id="pictureInput" name="picturePath" placeholder="Upload Event Cover" accept="image/*">
+                            <input type="file" class="form-control" id="pictureInput" name="picturePath[]" placeholder="Upload Event Cover" accept="image/*" multiple>
                             <label for="pictureInput">Upload Event Cover</label>
                         </div>
 
@@ -174,6 +174,7 @@
                         </div>
                     </form>
                 </div>
+
             </div>
         </section>
     
