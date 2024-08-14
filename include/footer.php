@@ -60,7 +60,7 @@
                 </div>
             </div>
             <div class="row copy-right g-0 py-3">
-                <p class="small-text text-center">Design and Developed by <a href="codewithemperor.github.com">EmperorTech</a></p>
+                <p class="small-text text-center">Design and Developed by <a href="https://codewithemperor.github.io/" target="blank">EmperorTech</a></p>
             </div>
         </div>
     </footer>
