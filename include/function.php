@@ -310,8 +310,11 @@ function addEventMedia() {
                     $compressedFile = $targetDirectory . pathinfo($picturePath, PATHINFO_FILENAME) . "-thumb." . $imageFileType;
 
                     if (compressImage($targetFile, $compressedFile, 70 * 1024)) {
-                        // Update the picturePath to the compressed file name
-                        $picturePath = basename($compressedFile);
+                        // Save the original picture path
+                        $originalPicturePath = basename($targetFile);
+
+                        // Save the thumbnail path
+                        $thumbnailPath = basename($compressedFile);
                     } else {
                         echo "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
                                 Failed to compress the image to the desired size, original image and thumb saved.
@@ -320,8 +323,8 @@ function addEventMedia() {
                     }
 
                     // Insert the media details into the event_media table
-                    $stmt = $conn->prepare("INSERT INTO event_media (customEventId, mediaType, videoLink, picturePath) VALUES (?, ?, ?, ?)");
-                    $stmt->bind_param("ssss", $eventCode, $mediaType, $videoLink, $picturePath);
+                    $stmt = $conn->prepare("INSERT INTO event_media (customEventId, mediaType, videoLink, picturePath, picturePathThumb) VALUES (?, ?, ?, ?, ?)");
+                    $stmt->bind_param("sssss", $eventCode, $mediaType, $videoLink, $originalPicturePath, $thumbnailPath);
 
                     if (!$stmt->execute()) {
                         echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
@@ -343,8 +346,8 @@ function addEventMedia() {
                   </div>";
         } elseif ($mediaType === 'video') {
             // Insert video details into the event_media table
-            $stmt = $conn->prepare("INSERT INTO event_media (customEventId, mediaType, videoLink, picturePath) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $eventCode, $mediaType, $videoLink, '');
+            $stmt = $conn->prepare("INSERT INTO event_media (customEventId, mediaType, videoLink, picturePath, picturePathThumb) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssss", $eventCode, $mediaType, $videoLink, '', '');
 
             if ($stmt->execute()) {
                 echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
@@ -362,6 +365,8 @@ function addEventMedia() {
         $stmt->close();
     }
 }
+
+
 
 
 // Function to compress an image to a target size

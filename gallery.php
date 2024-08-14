@@ -177,13 +177,14 @@
                                         include_once 'include/db.php';
 
                                         // Fetch pictures from the database
-                                        $query = "SELECT customEventId, picturePath FROM event_media WHERE mediaType = 'picture'";
+                                        $query = "SELECT customEventId, picturePath, picturePathThumb FROM event_media WHERE mediaType = 'picture'";
                                         $result = $conn->query($query);
 
                                         if ($result->num_rows > 0) {
                                             while ($row = $result->fetch_assoc()) {
                                                 $eventId = $row['customEventId'];
                                                 $picturePath = $row['picturePath'];
+                                                $picturePathThumb = $row['picturePathThumb'];
 
                                                 // Fetch event name from events table
                                                 $eventQuery = "SELECT eventName FROM events WHERE customEventId = '$eventId'";
@@ -195,7 +196,7 @@
                                                 echo "
                                                 <li class='col' data-src='images/gallery/$picturePath' data-sub-html='<h4>$eventName</h4>'>
                                                     <a href=''>
-                                                        <img class='img-responsive' src='images/gallery/$picturePath' alt='MosesMoradeun Charity Foundation Picture Thumb'>
+                                                        <img class='img-responsive' src='images/gallery/$picturePathThumb' alt='MosesMoradeun Charity Foundation Picture Thumb'>
                                                     </a>
                                                 </li>";
                                             }

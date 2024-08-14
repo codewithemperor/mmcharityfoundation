@@ -12,7 +12,7 @@ if (isset($_GET['id'])) {
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
+    if ($result->num_rows > 0) {    
         $event = $result->fetch_assoc();
     } else {
         echo "<p>Event not found</p>";
@@ -20,7 +20,7 @@ if (isset($_GET['id'])) {
     }
 
     // Query to get event media (pictures)
-    $mediaQuery = "SELECT picturePath FROM event_media WHERE customEventId = ? AND mediaType = 'picture' ORDER BY RAND() LIMIT 6";
+    $mediaQuery = "SELECT picturePathThumb FROM event_media WHERE customEventId = ? AND mediaType = 'picture' ORDER BY RAND() LIMIT 6";
     $stmt = $conn->prepare($mediaQuery);
     $stmt->bind_param("s", $customEventId);
     $stmt->execute();
@@ -87,7 +87,7 @@ if (isset($_GET['id'])) {
                             <?php if (count($media) > 0): ?>
                                 <div class="row row-cols-1 row-cols-md-2 g-3">
                                     <?php foreach ($media as $item): ?>
-                                        <div class="col"><img src="images/gallery/<?php echo htmlspecialchars($item['picturePath']); ?>" alt="Moses Moradeun Charity Foundation"></div>
+                                        <div class="col"><img src="images/gallery/<?php echo htmlspecialchars($item['picturePathThumb']); ?>" alt="Moses Moradeun Charity Foundation"></div>
                                     <?php endforeach; ?>
                                 </div>
                             <?php else: ?>
